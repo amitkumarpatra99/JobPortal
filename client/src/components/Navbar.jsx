@@ -15,7 +15,7 @@ const Navbar = () => {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-8">
-                        <Link to="/" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
+                        <Link to="/jobs" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
                             Find Jobs
                         </Link>
                         <Link to="/" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
@@ -35,7 +35,7 @@ const Navbar = () => {
                             Sign In
                         </Link>
                         <Link
-                            to="/register"
+                            to="/post-job"
                             className="px-5 py-2.5 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20"
                         >
                             Post a Job

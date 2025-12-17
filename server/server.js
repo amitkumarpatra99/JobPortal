@@ -12,12 +12,22 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
+const fs = require('fs');
+const path = require('path');
+
+app.use((req, res, next) => {
+    const log = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl}\n`;
+    fs.appendFileSync(path.join(__dirname, 'debug.log'), log);
+    next();
+});
+
 // Routes Placeholder
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Server is running' });
 });
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/jobs', require('./routes/jobs'));
 
 // Database Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/job-portal';

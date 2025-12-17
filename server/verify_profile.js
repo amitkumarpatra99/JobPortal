@@ -15,7 +15,7 @@ async function verifyProfile() {
     try {
         // 1. Register
         console.log('1. Registering User...');
-        const regRes = await axios.post('http://localhost:5000/api/auth/register', user);
+        const regRes = await axios.post('http://localhost:5001/api/auth/register', user);
         const token = regRes.data.token;
         console.log('   Success! Token received.');
 
@@ -39,7 +39,7 @@ async function verifyProfile() {
             }
         };
 
-        const updateRes = await axios.put('http://localhost:5000/api/users/profile', formData, config);
+        const updateRes = await axios.put('http://localhost:5001/api/users/profile', formData, config);
         console.log('   Upload Response:', updateRes.data);
 
         if (updateRes.data.profilePhoto && updateRes.data.profilePhoto.startsWith('uploads/')) {

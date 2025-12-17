@@ -24,7 +24,7 @@ const Profile = () => {
                     return;
                 }
 
-                const res = await axios.get('http://localhost:5000/api/users/profile', {
+                const res = await axios.get('http://localhost:5001/api/users/profile', {
                     headers: { 'x-auth-token': token }
                 });
 
@@ -59,7 +59,7 @@ const Profile = () => {
                 formData.append('profilePhoto', file);
             }
 
-            const res = await axios.put('http://localhost:5000/api/users/profile', formData, {
+            const res = await axios.put('http://localhost:5001/api/users/profile', formData, {
                 headers: {
                     'x-auth-token': token,
                     'Content-Type': 'multipart/form-data'
@@ -76,7 +76,7 @@ const Profile = () => {
 
     if (loading) return <div>Loading...</div>;
 
-    const photoUrl = preview || (user.profilePhoto ? `http://localhost:5000/${user.profilePhoto}` : 'https://via.placeholder.com/150');
+    const photoUrl = preview || (user.profilePhoto ? `http://localhost:5001/${user.profilePhoto}` : 'https://via.placeholder.com/150');
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans">

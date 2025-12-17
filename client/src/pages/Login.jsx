@@ -24,7 +24,7 @@ const Login = () => {
                 },
             };
             const body = JSON.stringify({ email, password });
-            const res = await axios.post('http://localhost:5000/api/auth/login', body, config);
+            const res = await axios.post('http://localhost:5001/api/auth/login', body, config);
 
             console.log('Login Success', res.data);
             // Store token (later use Context/Redux)

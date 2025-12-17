@@ -16,3 +16,11 @@ Body: {"title":"TEST MY WEBSITE","company":"TESTING","location":"Bhubaneswar, Od
 [2025-12-17T09:02:01.607Z] GET /api/users/test
 [2025-12-17T09:02:07.138Z] POST /api/auth/register
 [2025-12-17T09:02:07.240Z] PUT /api/users/profile
+[2025-12-17T09:06:50.812Z] GET /testserver
+[2025-12-17T09:06:55.262Z] GET /api/users/test
+[2025-12-17T09:06:59.389Z] GET /api/jobs
+[2025-12-17T09:06:59.393Z] GET /api/jobs
+[2025-12-17T09:12:11.109Z] GET /api/users/profile
+[2025-12-17T09:12:11.112Z] GET /api/users/profile
+[2025-12-17T09:12:13.230Z] GET /api/jobs
+[2025-12-17T09:12:13.234Z] GET /api/jobs

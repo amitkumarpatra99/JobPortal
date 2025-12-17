@@ -6,7 +6,7 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(express.json());
@@ -20,11 +20,8 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Server is running' });
 });
 
-app.get('/testserver', (req, res) => res.send('Server works directly'));
-
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/jobs', require('./routes/jobs'));
-console.log('Mounting /api/users...');
 app.use('/api/users', require('./routes/users'));
 
 // Database Connection

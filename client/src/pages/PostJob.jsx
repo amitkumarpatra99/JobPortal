@@ -36,7 +36,7 @@ const PostJob = () => {
                 },
             };
 
-            await axios.post('http://localhost:5000/api/jobs', formData, config);
+            await axios.post('http://localhost:5001/api/jobs', formData, config);
             alert('Job Posted Successfully!');
             navigate('/jobs');
 

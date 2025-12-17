@@ -33,7 +33,7 @@ const Register = () => {
             };
             // Send role as well
             const body = JSON.stringify({ name, email, password, role });
-            const res = await axios.post('http://localhost:5000/api/auth/register', body, config);
+            const res = await axios.post('http://localhost:5001/api/auth/register', body, config);
 
             console.log('Register Success', res.data);
             localStorage.setItem('token', res.data.token);

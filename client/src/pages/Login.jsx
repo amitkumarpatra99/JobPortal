@@ -24,71 +24,54 @@ const Login = () => {
             console.log('Login Success', res.data);
             // Store token (later use Context/Redux)
             localStorage.setItem('token', res.data.token);
-            navigate('/');
+            navigate('/jobs');
         } catch (err) {
             console.error('Login Error', err.response?.data || err.message);
-            alert('Login Failed: ' + (err.response?.data?.message || 'Server Error'));
+            alert('Invalid Credentials');
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+        <div className="min-h-screen bg-gray-900 font-sans text-gray-100 flex flex-col relative overflow-hidden">
             <Navbar />
-            <div className="flex-1 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+
+            {/* Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+                <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000"></div>
+            </div>
+
+            <div className="flex-grow flex items-center justify-center pt-20 px-4">
+                <div className="max-w-md w-full glass-panel p-8 rounded-2xl border border-white/10 shadow-2xl relative z-10 backdrop-blur-xl bg-black/40">
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl font-extrabold text-gray-900">Welcome Back</h2>
-                        <p className="mt-2 text-sm text-gray-500">Sign in to your account to continue</p>
+                        <h1 className="text-3xl font-extrabold text-white mb-2">Welcome Back</h1>
+                        <p className="text-gray-400">Sign in to access your account</p>
                     </div>
 
                     <form className="space-y-6" onSubmit={onSubmit}>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                                Email Address
-                            </label>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
                             <input
-                                id="email"
-                                name="email"
                                 type="email"
-                                required
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                                placeholder="you@example.com"
+                                name="email"
                                 value={email}
                                 onChange={onChange}
+                                required
+                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium"
+                                placeholder="you@example.com"
                             />
                         </div>
-
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                                Password
-                            </label>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">Password</label>
                             <input
-                                id="password"
-                                name="password"
                                 type="password"
-                                required
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-                                placeholder="••••••••"
+                                name="password"
                                 value={password}
                                 onChange={onChange}
+                                required
+                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium"
+                                placeholder="••••••••"
                             />
-                        </div>
-
-                        <div className="flex items-center justify-between text-sm">
-                            <div className="flex items-center">
-                                <input
-                                    id="remember-me"
-                                    name="remember-me"
-                                    type="checkbox"
-                                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                />
-                                <label htmlFor="remember-me" className="ml-2 block text-gray-700">
-                                    Remember me
-                                </label>
-                            </div>
-                            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                                Forgot password?
-                            </a>
                         </div>
 
                         <button

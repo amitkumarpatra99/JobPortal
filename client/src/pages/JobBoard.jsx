@@ -23,33 +23,33 @@ const JobBoard = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-50 font-sans">
+        <div className="min-h-screen font-sans text-gray-100">
             <Navbar />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-24">
-                <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Latest Job Openings</h1>
+                <h1 className="text-3xl font-extrabold text-white mb-8 drop-shadow-md">Latest Job Openings</h1>
 
                 {loading ? (
                     <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
                     </div>
                 ) : (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {jobs.length > 0 ? (
                             jobs.map((job) => (
-                                <div key={job._id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border border-gray-100 flex flex-col h-full">
+                                <div key={job._id} className="glass-panel bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all hover:bg-white/10 flex flex-col h-full group">
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
-                                            <h3 className="text-lg font-bold text-gray-900 line-clamp-1">{job.title}</h3>
-                                            <p className="text-sm text-gray-500 font-medium">{job.company}</p>
+                                            <h3 className="text-lg font-bold text-white line-clamp-1 group-hover:text-blue-400 transition-colors">{job.title}</h3>
+                                            <p className="text-sm text-gray-400 font-medium">{job.company}</p>
                                         </div>
-                                        <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full border border-blue-100">
+                                        <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs font-semibold rounded-full border border-blue-500/30">
                                             {job.type}
                                         </span>
                                     </div>
 
                                     <div className="mb-4 flex-grow">
-                                        <p className="text-gray-600 text-sm line-clamp-3 mb-3">
+                                        <p className="text-gray-400 text-sm line-clamp-3 mb-3">
                                             {job.description}
                                         </p>
                                         <div className="flex items-center text-sm text-gray-500 gap-4">
@@ -64,15 +64,15 @@ const JobBoard = () => {
                                         </div>
                                     </div>
 
-                                    <button className="w-full mt-auto py-2.5 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors text-sm">
+                                    <button className="w-full mt-auto py-2.5 bg-white/5 border border-white/10 text-white font-medium rounded-lg hover:bg-blue-600 hover:border-blue-500 transition-all text-sm">
                                         Apply Now
                                     </button>
                                 </div>
                             ))
                         ) : (
-                            <div className="col-span-full text-center py-12">
-                                <p className="text-gray-500 text-lg">No jobs found. Be the first to post one!</p>
-                                <Link to="/post-job" className="mt-4 inline-block text-blue-600 font-medium hover:underline">Post a Job</Link>
+                            <div className="col-span-full text-center py-12 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md">
+                                <p className="text-gray-400 text-lg">No jobs found. Be the first to post one!</p>
+                                <Link to="/post-job" className="mt-4 inline-block text-blue-400 font-medium hover:text-blue-300 hover:underline">Post a Job</Link>
                             </div>
                         )}
                     </div>

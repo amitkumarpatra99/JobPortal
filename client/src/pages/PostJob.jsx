@@ -47,20 +47,20 @@ const PostJob = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 font-sans">
+        <div className="min-h-screen bg-gray-900 font-sans text-gray-100 selection:bg-blue-500/30">
             <Navbar />
 
             <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-24">
-                <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-                    <div className="mb-8 border-b border-gray-100 pb-4">
-                        <h1 className="text-2xl font-extrabold text-gray-900">Post a New Job</h1>
-                        <p className="text-gray-500 mt-1">Reach thousands of job seekers</p>
+                <div className="glass-panel p-8 rounded-2xl border border-white/10 shadow-2xl bg-black/40 backdrop-blur-xl">
+                    <div className="mb-8 border-b border-white/10 pb-4">
+                        <h1 className="text-2xl font-extrabold text-white">Post a New Job</h1>
+                        <p className="text-gray-400 mt-1">Reach thousands of job seekers</p>
                     </div>
 
                     <form className="space-y-6" onSubmit={onSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                                <label className="block text-sm font-medium text-gray-300 mb-1">Job Title</label>
                                 <input
                                     type="text"
                                     name="title"
@@ -68,11 +68,11 @@ const PostJob = () => {
                                     onChange={onChange}
                                     required
                                     placeholder="e.g. Senior React Developer"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                                <label className="block text-sm font-medium text-gray-300 mb-1">Company Name</label>
                                 <input
                                     type="text"
                                     name="company"
@@ -80,14 +80,14 @@ const PostJob = () => {
                                     onChange={onChange}
                                     required
                                     placeholder="e.g. Acme Corp"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium"
                                 />
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                                <label className="block text-sm font-medium text-gray-300 mb-1">Location</label>
                                 <input
                                     type="text"
                                     name="location"
@@ -95,11 +95,11 @@ const PostJob = () => {
                                     onChange={onChange}
                                     required
                                     placeholder="e.g. San Francisco, CA (or Remote)"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
+                                <label className="block text-sm font-medium text-gray-300 mb-1">Salary Range</label>
                                 <input
                                     type="text"
                                     name="salary"
@@ -107,18 +107,18 @@ const PostJob = () => {
                                     onChange={onChange}
                                     required
                                     placeholder="e.g. $100k - $140k"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">Job Type</label>
                             <select
                                 name="type"
                                 value={type}
                                 onChange={onChange}
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
+                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium bg-gray-900"
                             >
                                 <option value="Full-time">Full-time</option>
                                 <option value="Part-time">Part-time</option>
@@ -128,7 +128,7 @@ const PostJob = () => {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Job Description</label>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">Job Description</label>
                             <textarea
                                 name="description"
                                 value={description}
@@ -136,14 +136,14 @@ const PostJob = () => {
                                 required
                                 rows="5"
                                 placeholder="Describe the role, responsibilities, and requirements..."
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium resize-none"
                             ></textarea>
                         </div>
 
                         <div className="flex justify-end pt-4">
                             <button
                                 type="submit"
-                                className="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 hover:from-blue-500 hover:to-indigo-500 transition-all transform hover:scale-105"
                             >
                                 Publish Job
                             </button>

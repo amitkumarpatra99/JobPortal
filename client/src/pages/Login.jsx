@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import api from '../services/api';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -18,13 +18,8 @@ const Login = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            };
             const body = JSON.stringify({ email, password });
-            const res = await axios.post('http://localhost:5001/api/auth/login', body, config);
+            const res = await api.post('/auth/login', body);
 
             console.log('Login Success', res.data);
             // Store token (later use Context/Redux)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
@@ -24,7 +24,7 @@ const Profile = () => {
                     return;
                 }
 
-                const res = await axios.get('http://localhost:5001/api/users/profile', {
+                const res = await api.get('/users/profile', {
                     headers: { 'x-auth-token': token }
                 });
 
@@ -59,7 +59,7 @@ const Profile = () => {
                 formData.append('profilePhoto', file);
             }
 
-            const res = await axios.put('http://localhost:5001/api/users/profile', formData, {
+            const res = await api.put('/users/profile', formData, {
                 headers: {
                     'x-auth-token': token,
                     'Content-Type': 'multipart/form-data'
@@ -76,7 +76,16 @@ const Profile = () => {
 
     if (loading) return <div>Loading...</div>;
 
-    const photoUrl = preview || (user.profilePhoto ? `http://localhost:5001/${user.profilePhoto}` : 'https://via.placeholder.com/150');
+    // Helper to get full image URL (handles relative paths from server)
+    const getImageUrl = (path) => {
+        if (!path) return 'https://via.placeholder.com/150';
+        if (path.startsWith('http')) return path;
+        // Use api.defaults.baseURL to resolve relative path, stripping '/api'
+        const baseUrl = api.defaults.baseURL.replace('/api', '');
+        return `${baseUrl}/${path}`;
+    };
+
+    const photoUrl = preview || getImageUrl(user.profilePhoto);
 
     return (
         <div className="min-h-screen bg-gray-50 font-sans">

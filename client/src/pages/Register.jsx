@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import api from '../services/api';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Register = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'seeker',
+        role: 'seeker', // Default role
     });
 
     const { name, email, password, confirmPassword, role } = formData;
@@ -26,14 +26,8 @@ const Register = () => {
         }
 
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            };
-            // Send role as well
-            const body = JSON.stringify({ name, email, password, role });
-            const res = await axios.post('http://localhost:5001/api/auth/register', body, config);
+            const body = { name, email, password, role };
+            const res = await api.post('/auth/register', body);
 
             console.log('Register Success', res.data);
             localStorage.setItem('token', res.data.token);

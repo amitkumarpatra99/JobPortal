@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const PostJob = () => {
@@ -24,7 +24,7 @@ const PostJob = () => {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Please login to post a job');
+                alert('Please Login First');
                 navigate('/login');
                 return;
             }
@@ -36,7 +36,7 @@ const PostJob = () => {
                 },
             };
 
-            await axios.post('http://localhost:5001/api/jobs', formData, config);
+            await api.post('/jobs', formData, config);
             alert('Job Posted Successfully!');
             navigate('/jobs');
 

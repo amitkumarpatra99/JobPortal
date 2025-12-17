@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import api from '../services/api';
 import { Link } from 'react-router-dom';
 
 const JobBoard = () => {
@@ -10,7 +10,7 @@ const JobBoard = () => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await axios.get('http://localhost:5001/api/jobs');
+                const res = await api.get('/jobs');
                 setJobs(res.data);
                 setLoading(false);
             } catch (err) {

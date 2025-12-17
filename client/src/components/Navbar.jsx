@@ -29,6 +29,15 @@ const Navbar = () => {
                     {/* Auth Buttons */}
                     <div className="hidden md:flex items-center space-x-4">
                         <Link
+                            to="/profile"
+                            className="text-gray-600 hover:text-blue-600 font-medium transition-colors flex items-center gap-2"
+                        >
+                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
+                                P
+                            </div>
+                            <span>Profile</span>
+                        </Link>
+                        <Link
                             to="/login"
                             className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
                         >

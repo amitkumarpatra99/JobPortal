@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         enum: ['seeker', 'employer'],
         default: 'seeker',
     },
+    profilePhoto: {
+        type: String, // Path to the image
+        default: '',
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

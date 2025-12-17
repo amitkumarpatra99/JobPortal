@@ -1,13 +1,7 @@
 const Job = require('../models/Job');
 
-const fs = require('fs');
-const path = require('path');
-
 // Create a Job
 exports.createJob = async (req, res) => {
-    const logParams = `Body: ${JSON.stringify(req.body)} | User: ${JSON.stringify(req.user)}\n`;
-    fs.appendFileSync(path.join(__dirname, '../debug.log'), `[JobController] createJob called\n${logParams}`);
-
     try {
         const { title, company, location, description, salary, type } = req.body;
 
@@ -27,12 +21,10 @@ exports.createJob = async (req, res) => {
             postedBy: req.user.id
         });
 
-        console.log('Saving job...');
         const job = await newJob.save();
-        console.log('Job saved:', job);
         res.json(job);
     } catch (err) {
-        console.error('Error in createJob:', err.message);
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 };

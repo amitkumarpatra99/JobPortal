@@ -12,22 +12,20 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-const fs = require('fs');
-const path = require('path');
-
-app.use((req, res, next) => {
-    const log = `[${new Date().toISOString()}] ${req.method} ${req.originalUrl}\n`;
-    fs.appendFileSync(path.join(__dirname, 'debug.log'), log);
-    next();
-});
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
 
 // Routes Placeholder
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Server is running' });
 });
 
+app.get('/testserver', (req, res) => res.send('Server works directly'));
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/jobs', require('./routes/jobs'));
+console.log('Mounting /api/users...');
+app.use('/api/users', require('./routes/users'));
 
 // Database Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/job-portal';

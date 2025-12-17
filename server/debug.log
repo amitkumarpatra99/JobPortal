@@ -1,0 +1,18 @@
+[2025-12-17T08:47:22.094Z] POST /api/jobs
+[JobController] createJob called
+Body: {"title":"TEST MY WEBSITE","company":"TESTING","location":"Bhubaneswar, Odisha","description":"donnnnnnnnnnnnnnnnnnnnnnneeeeeeeeeeeee","salary":"10000K","type":"Full-time"} | User: {"id":"69426a09b1936e57c07c7947","role":"employer"}
+[2025-12-17T08:47:24.207Z] GET /api/jobs
+[2025-12-17T08:47:24.214Z] GET /api/jobs
+[2025-12-17T08:48:14.133Z] GET /api/jobs
+[2025-12-17T08:48:14.137Z] GET /api/jobs
+[2025-12-17T08:56:32.993Z] POST /api/auth/register
+[2025-12-17T08:56:33.097Z] PUT /api/users/profile
+[2025-12-17T08:59:42.993Z] POST /api/auth/register
+[2025-12-17T08:59:43.096Z] PUT /api/users/profile
+[2025-12-17T09:01:50.147Z] GET /api/users/profile
+[2025-12-17T09:01:50.149Z] GET /api/users/profile
+[2025-12-17T09:01:56.127Z] GET /api/jobs
+[2025-12-17T09:01:56.131Z] GET /api/jobs
+[2025-12-17T09:02:01.607Z] GET /api/users/test
+[2025-12-17T09:02:07.138Z] POST /api/auth/register
+[2025-12-17T09:02:07.240Z] PUT /api/users/profile

@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -5,8 +6,10 @@ import Register from './pages/Register';
 import JobBoard from './pages/JobBoard';
 import PostJob from './pages/PostJob';
 import Profile from './pages/Profile';
+import Companies from './pages/Companies';
+import Salaries from './pages/Salaries';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Routes>
@@ -16,9 +19,11 @@ function App() {
         <Route path="/jobs" element={<JobBoard />} />
         <Route path="/post-job" element={<PostJob />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/companies" element={<Companies />} />
+        <Route path="/salaries" element={<Salaries />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

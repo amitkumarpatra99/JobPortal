@@ -1,68 +1,154 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import {
+  Menu,
+  X,
+  User,
+  LogOut,
+  Briefcase,
+  Building2,
+  IndianRupee
+} from "lucide-react";
 
 const Navbar = () => {
-    return (
-        <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    {/* Logo */}
-                    <div className="flex-shrink-0 flex items-center cursor-pointer">
-                        <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                            JobFlow
-                        </Link>
-                    </div>
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-8">
-                        <Link to="/jobs" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                            Find Jobs
-                        </Link>
-                        <Link to="/" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                            Companies
-                        </Link>
-                        <Link to="/" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">
-                            Salaries
-                        </Link>
-                    </div>
+  const navItem =
+    "px-4 py-2 rounded-full text-sm font-medium transition-all";
+  const navActive =
+    "bg-blue-600 text-white shadow-md shadow-blue-500/30";
+  const navInactive =
+    "text-gray-600 hover:bg-gray-100 hover:text-blue-600";
 
-                    {/* Auth Buttons */}
-                    <div className="hidden md:flex items-center space-x-4">
-                        <Link
-                            to="/profile"
-                            className="text-gray-600 hover:text-blue-600 font-medium transition-colors flex items-center gap-2"
-                        >
-                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
-                                P
-                            </div>
-                            <span>Profile</span>
-                        </Link>
-                        <Link
-                            to="/login"
-                            className="text-gray-600 hover:text-blue-600 font-medium transition-colors"
-                        >
-                            Sign In
-                        </Link>
-                        <Link
-                            to="/post-job"
-                            className="px-5 py-2.5 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20"
-                        >
-                            Post a Job
-                        </Link>
-                    </div>
+  return (
+    <header className="fixed top-4 inset-x-0 z-50">
+      <div className="max-w-7xl mx-auto px-4">
+        <nav className="flex items-center justify-between rounded-2xl bg-white/70 backdrop-blur-xl border border-gray-200 shadow-xl px-6 h-16">
+          
+          {/* Logo */}
+          <Link
+            to="/"
+            className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+          >
+            JobFlow
+          </Link>
 
-                    {/* Mobile menu button (Placeholder) */}
-                    <div className="md:hidden flex items-center">
-                        <button className="text-gray-600 hover:text-blue-600 focus:outline-none">
-                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-2 bg-gray-100/70 p-1 rounded-full">
+            <NavLink
+              to="/jobs"
+              className={({ isActive }) =>
+                `${navItem} ${isActive ? navActive : navInactive}`
+              }
+            >
+              <span className="flex items-center gap-1">
+                <Briefcase size={16} /> Jobs
+              </span>
+            </NavLink>
+
+            <NavLink
+              to="/companies"
+              className={({ isActive }) =>
+                `${navItem} ${isActive ? navActive : navInactive}`
+              }
+            >
+              <span className="flex items-center gap-1">
+                <Building2 size={16} /> Companies
+              </span>
+            </NavLink>
+
+            <NavLink
+              to="/salaries"
+              className={({ isActive }) =>
+                `${navItem} ${isActive ? navActive : navInactive}`
+              }
+            >
+              <span className="flex items-center gap-1">
+                <IndianRupee size={16} /> Salaries
+              </span>
+            </NavLink>
+          </div>
+
+          {/* Right Section */}
+          <div className="hidden md:flex items-center gap-4 relative">
+            <Link
+              to="/post-job"
+              className="px-5 py-2 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-600/30"
+            >
+              Post Job
+            </Link>
+
+            {/* Profile Dropdown */}
+            <button
+              onClick={() => setProfileOpen(!profileOpen)}
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold flex items-center justify-center shadow-md"
+            >
+              P
+            </button>
+
+            {profileOpen && (
+              <div className="absolute right-0 top-14 w-48 rounded-xl bg-white shadow-xl border border-gray-200 overflow-hidden">
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100"
+                >
+                  <User size={16} /> Profile
+                </Link>
+                <Link
+                  to="/login"
+                  className="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100"
+                >
+                  <LogOut size={16} /> Sign In
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden text-gray-700"
+          >
+            {menuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
         </nav>
-    );
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden mt-3 mx-4 rounded-2xl bg-white/80 backdrop-blur-xl border border-gray-200 shadow-xl overflow-hidden">
+          <div className="flex flex-col p-4 gap-2">
+            <NavLink to="/jobs" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-gray-100">
+              Find Jobs
+            </NavLink>
+            <NavLink to="/companies" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-gray-100">
+              Companies
+            </NavLink>
+            <NavLink to="/salaries" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-gray-100">
+              Salaries
+            </NavLink>
+
+            <div className="h-px bg-gray-200 my-2" />
+
+            <Link to="/profile" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-gray-100">
+              Profile
+            </Link>
+            <Link to="/login" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl hover:bg-gray-100">
+              Sign In
+            </Link>
+            <Link
+              to="/post-job"
+              onClick={() => setMenuOpen(false)}
+              className="mt-2 px-4 py-3 rounded-xl bg-blue-600 text-white text-center font-semibold"
+            >
+              Post Job
+            </Link>
+          </div>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default Navbar;

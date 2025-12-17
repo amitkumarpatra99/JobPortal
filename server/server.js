@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
 
 dotenv.config();
 
@@ -29,6 +30,22 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/jobs', require('./routes/jobs'));
 app.use('/api/users', require('./routes/users'));
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        return res.status(400).json({ message: err.message });
+    } else if (err) {
+        // An unknown error occurred when uploading.
+        if (err === 'Error: Images Only!') {
+            return res.status(400).json({ message: err });
+        }
+        console.error(err);
+        return res.status(500).json({ message: 'Server Error', error: err.message });
+    }
+    next();
+});
 
 // Database Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/job-portal';

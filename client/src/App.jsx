@@ -9,6 +9,10 @@ import Profile from './pages/Profile';
 import Companies from './pages/Companies';
 import Salaries from './pages/Salaries';
 
+import JobApplicants from './pages/JobApplicants';
+
+import EditJob from './pages/EditJob';
+
 const App = () => {
   return (
     <Router>
@@ -18,9 +22,11 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/jobs" element={<JobBoard />} />
         <Route path="/post-job" element={<PostJob />} />
+        <Route path="/edit-job/:id" element={<EditJob />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/companies" element={<Companies />} />
         <Route path="/salaries" element={<Salaries />} />
+        <Route path="/jobs/:id/applicants" element={<JobApplicants />} />
       </Routes>
     </Router>
   );

@@ -70,7 +70,8 @@ const Profile = () => {
             alert('Profile Updated Successfully!');
         } catch (err) {
             console.error(err);
-            alert('Error updating profile');
+            const errorMessage = err.response?.data?.message || err.response?.data?.error || 'Error updating profile';
+            alert(errorMessage);
         }
     };
 

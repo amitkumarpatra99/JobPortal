@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const JobBoard = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -19,8 +20,42 @@ const JobBoard = () => {
             }
         };
 
+        const fetchUser = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const res = await api.get('/users/profile');
+                    setUser(res.data);
+                }
+            } catch (err) {
+                console.error('Error fetching user:', err);
+            }
+        };
+
         fetchJobs();
+        fetchUser();
     }, []);
+
+    const handleApply = async (jobId) => {
+        try {
+            await api.post(`/jobs/${jobId}/apply`);
+            alert('Applied successfully!');
+        } catch (err) {
+            alert(err.response?.data?.message || 'Error applying for job');
+        }
+    };
+
+    const handleDelete = async (jobId) => {
+        if (window.confirm('Are you sure you want to delete this job?')) {
+            try {
+                await api.delete(`/jobs/${jobId}`);
+                setJobs(jobs.filter(job => job._id !== jobId));
+                alert('Job deleted');
+            } catch (err) {
+                alert(err.response?.data?.message || 'Error deleting job');
+            }
+        }
+    };
 
     return (
         <div className="min-h-screen font-sans text-gray-100">
@@ -64,9 +99,37 @@ const JobBoard = () => {
                                         </div>
                                     </div>
 
-                                    <button className="w-full mt-auto py-2.5 bg-white/5 border border-white/10 text-white font-medium rounded-lg hover:bg-blue-600 hover:border-blue-500 transition-all text-sm">
-                                        Apply Now
-                                    </button>
+                                    {user && user.role === 'seeker' && (
+                                        <button
+                                            onClick={() => handleApply(job._id)}
+                                            className="w-full mt-auto py-2.5 bg-white/5 border border-white/10 text-white font-medium rounded-lg hover:bg-blue-600 hover:border-blue-500 transition-all text-sm"
+                                        >
+                                            Apply Now
+                                        </button>
+                                    )}
+
+                                    {user && user.role === 'employer' && user._id === job.postedBy && (
+                                        <div className="flex gap-2 mt-auto">
+                                            <Link
+                                                to={`/edit-job/${job._id}`}
+                                                className="flex-1 py-2.5 bg-yellow-500/10 border border-yellow-500/20 text-center text-yellow-500 font-medium rounded-lg hover:bg-yellow-500/20 transition-all text-sm"
+                                            >
+                                                Edit
+                                            </Link>
+                                            <button
+                                                onClick={() => handleDelete(job._id)}
+                                                className="flex-1 py-2.5 bg-red-500/10 border border-red-500/20 text-red-500 font-medium rounded-lg hover:bg-red-500/20 transition-all text-sm"
+                                            >
+                                                Delete
+                                            </button>
+                                            <Link
+                                                to={`/jobs/${job._id}/applicants`}
+                                                className="flex-1 py-2.5 bg-blue-500/10 border border-blue-500/20 text-center text-blue-400 font-medium rounded-lg hover:bg-blue-500/20 transition-all text-sm"
+                                            >
+                                                Applicants
+                                            </Link>
+                                        </div>
+                                    )}
                                 </div>
                             ))
                         ) : (

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import {
     Menu,
     X,
@@ -9,10 +10,27 @@ import {
     Building2,
     IndianRupee
 } from "lucide-react";
+import api from '../services/api';
 
 const Navbar = () => {
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
+
+    const handleLogout = () => {
+        logout();
+        setProfileOpen(false);
+        setMenuOpen(false);
+        navigate('/login');
+    };
+
+    const getImageUrl = (path) => {
+        if (!path) return null;
+        if (path.startsWith('http')) return path;
+        const baseUrl = api.defaults.baseURL.replace('/api', '');
+        return `${baseUrl}/${path}`;
+    };
 
     const navItem =
         "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300";
@@ -79,34 +97,59 @@ const Navbar = () => {
                             Post Job
                         </Link>
 
-                        {/* Profile Dropdown */}
-                        <div className="relative">
-                            <button
-                                onClick={() => setProfileOpen(!profileOpen)}
-                                className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold flex items-center justify-center shadow-lg border border-white/20 hover:scale-105 transition-transform"
-                            >
-                                P
-                            </button>
+                        {/* Profile Dropdown or Login Button */}
+                        {user ? (
+                            <div className="relative">
+                                <button
+                                    onClick={() => setProfileOpen(!profileOpen)}
+                                    className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold flex items-center justify-center shadow-lg border border-white/20 hover:scale-105 transition-transform overflow-hidden"
+                                >
+                                    {user.profilePhoto ? (
+                                        <img
+                                            src={getImageUrl(user.profilePhoto)}
+                                            alt={user.name}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                                        />
+                                    ) : (
+                                        <span>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
+                                    )}
+                                    {/* Fallback for image error (hidden by default unless error occurs) */}
+                                    <span className="hidden w-full h-full items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600">
+                                        {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                                    </span>
+                                </button>
 
-                            {profileOpen && (
-                                <div className="absolute right-0 top-14 w-48 rounded-xl bg-[#0f172a]/90 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                                    <Link
-                                        to="/profile"
-                                        className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
-                                        onClick={() => setProfileOpen(false)}
-                                    >
-                                        <User size={16} /> Profile
-                                    </Link>
-                                    <Link
-                                        to="/login"
-                                        className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
-                                        onClick={() => setProfileOpen(false)}
-                                    >
-                                        <LogOut size={16} /> Sign In
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
+                                {profileOpen && (
+                                    <div className="absolute right-0 top-14 w-48 rounded-xl bg-[#0f172a]/90 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                                        <div className="px-4 py-3 border-b border-white/10">
+                                            <p className="text-sm font-medium text-white truncate">{user.name}</p>
+                                            <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                                        </div>
+                                        <Link
+                                            to="/profile"
+                                            className="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                                            onClick={() => setProfileOpen(false)}
+                                        >
+                                            <User size={16} /> Profile
+                                        </Link>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors text-left"
+                                        >
+                                            <LogOut size={16} /> Sign Out
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <Link
+                                to="/login"
+                                className="px-5 py-2 rounded-full border border-white/10 text-white font-semibold hover:bg-white/5 transition-all duration-300"
+                            >
+                                Sign In
+                            </Link>
+                        )}
                     </div>
 
                     {/* Mobile Button */}
@@ -135,12 +178,20 @@ const Navbar = () => {
 
                         <div className="h-px bg-white/10 my-2" />
 
-                        <Link to="/profile" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl text-gray-300 hover:bg-white/10 hover:text-white transition-colors">
-                            Profile
-                        </Link>
-                        <Link to="/login" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl text-gray-300 hover:bg-white/10 hover:text-white transition-colors">
-                            Sign In
-                        </Link>
+                        {user ? (
+                            <>
+                                <Link to="/profile" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl text-gray-300 hover:bg-white/10 hover:text-white transition-colors flex items-center gap-2">
+                                    <User size={18} /> Profile
+                                </Link>
+                                <button onClick={handleLogout} className="w-full px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors flex items-center gap-2 text-left">
+                                    <LogOut size={18} /> Sign Out
+                                </button>
+                            </>
+                        ) : (
+                            <Link to="/login" onClick={() => setMenuOpen(false)} className="px-4 py-3 rounded-xl text-gray-300 hover:bg-white/10 hover:text-white transition-colors">
+                                Sign In
+                            </Link>
+                        )}
                         <Link
                             to="/post-job"
                             onClick={() => setMenuOpen(false)}

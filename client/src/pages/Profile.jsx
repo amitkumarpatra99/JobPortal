@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Profile = () => {
     const navigate = useNavigate();
+    const { updateUser } = useAuth();
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -117,6 +119,7 @@ const Profile = () => {
 
             setUser(res.data);
             setSkillsInput(res.data.skills ? res.data.skills.join(', ') : '');
+            updateUser(res.data); // Update global auth context immediately
             alert('Profile Updated Successfully!');
         } catch (err) {
             console.error(err);

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import api from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -18,15 +19,11 @@ const Login = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            const body = JSON.stringify({ email, password });
-            const res = await api.post('/auth/login', body);
-
-            console.log('Login Success', res.data);
-            // Store token (later use Context/Redux)
-            localStorage.setItem('token', res.data.token);
+            await login(email, password);
+            // Login function in context handles token storage and user fetching
             navigate('/jobs');
         } catch (err) {
-            console.error('Login Error', err.response?.data || err.message);
+            console.error('Login Error', err);
             alert('Invalid Credentials');
         }
     };

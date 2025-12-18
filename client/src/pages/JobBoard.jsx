@@ -16,6 +16,7 @@ const JobBoard = () => {
             const res = await api.get('/jobs', {
                 params: { search, type }
             });
+            console.log("Jobs fetched:", res.data); // Debugging
             setJobs(res.data);
             setLoading(false);
         } catch (err) {
@@ -91,6 +92,13 @@ const JobBoard = () => {
         }
     };
 
+    const getImageUrl = (path) => {
+        if (!path) return null;
+        if (path.startsWith('http')) return path;
+        const baseUrl = api.defaults.baseURL.replace('/api', '');
+        return `${baseUrl}/${path}`;
+    };
+
     return (
         <div className="min-h-screen font-sans text-gray-100">
             <Navbar />
@@ -147,9 +155,33 @@ const JobBoard = () => {
                             jobs.map((job) => (
                                 <div key={job._id} className="glass-panel bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all hover:bg-white/10 flex flex-col h-full group">
                                     <div className="flex justify-between items-start mb-4">
-                                        <div>
-                                            <h3 className="text-lg font-bold text-white line-clamp-1 group-hover:text-blue-400 transition-colors">{job.title}</h3>
-                                            <p className="text-sm text-gray-400 font-medium">{job.company}</p>
+                                        <div className="flex items-center gap-3">
+                                            {/* User Photo */}
+                                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center overflow-hidden border border-white/20 shrink-0">
+                                                {job.postedBy && job.postedBy.profilePhoto ? (
+                                                    <img
+                                                        src={getImageUrl(job.postedBy.profilePhoto)}
+                                                        alt={job.postedBy.name}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                                                    />
+                                                ) : (
+                                                    <span className="text-white text-xs font-bold">
+                                                        {job.postedBy && job.postedBy.name ? job.postedBy.name.charAt(0).toUpperCase() : 'U'}
+                                                    </span>
+                                                )}
+                                                <span className="hidden w-full h-full items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 text-white text-xs font-bold">
+                                                    {job.postedBy && job.postedBy.name ? job.postedBy.name.charAt(0).toUpperCase() : 'U'}
+                                                </span>
+                                            </div>
+
+                                            <div>
+                                                <h3 className="text-lg font-bold text-white line-clamp-1 group-hover:text-blue-400 transition-colors">{job.title}</h3>
+                                                <p className="text-sm text-gray-400 font-medium">{job.company}</p>
+                                                {job.postedBy && (
+                                                    <p className="text-xs text-blue-400">Posted by {job.postedBy.name}</p>
+                                                )}
+                                            </div>
                                         </div>
                                         <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs font-semibold rounded-full border border-blue-500/30">
                                             {job.type}
@@ -181,28 +213,31 @@ const JobBoard = () => {
                                         </button>
                                     )}
 
-                                    {user && user.role === 'employer' && user._id === job.postedBy && (
-                                        <div className="flex gap-2 mt-auto">
-                                            <Link
-                                                to={`/edit-job/${job._id}`}
-                                                className="flex-1 py-2.5 bg-yellow-500/10 border border-yellow-500/20 text-center text-yellow-500 font-medium rounded-lg hover:bg-yellow-500/20 transition-all text-sm"
-                                            >
-                                                Edit
-                                            </Link>
-                                            <button
-                                                onClick={() => handleDelete(job._id)}
-                                                className="flex-1 py-2.5 bg-red-500/10 border border-red-500/20 text-red-500 font-medium rounded-lg hover:bg-red-500/20 transition-all text-sm"
-                                            >
-                                                Delete
-                                            </button>
-                                            <Link
-                                                to={`/jobs/${job._id}/applicants`}
-                                                className="flex-1 py-2.5 bg-blue-500/10 border border-blue-500/20 text-center text-blue-400 font-medium rounded-lg hover:bg-blue-500/20 transition-all text-sm"
-                                            >
-                                                Applicants
-                                            </Link>
-                                        </div>
-                                    )}
+                                    {user && user.role === 'employer' && (
+                                        (typeof job.postedBy === 'string' && user._id === job.postedBy) ||
+                                        (typeof job.postedBy === 'object' && job.postedBy !== null && user._id === job.postedBy._id)
+                                    ) && (
+                                            <div className="flex gap-2 mt-auto">
+                                                <Link
+                                                    to={`/edit-job/${job._id}`}
+                                                    className="flex-1 py-2.5 bg-yellow-500/10 border border-yellow-500/20 text-center text-yellow-500 font-medium rounded-lg hover:bg-yellow-500/20 transition-all text-sm"
+                                                >
+                                                    Edit
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(job._id)}
+                                                    className="flex-1 py-2.5 bg-red-500/10 border border-red-500/20 text-red-500 font-medium rounded-lg hover:bg-red-500/20 transition-all text-sm"
+                                                >
+                                                    Delete
+                                                </button>
+                                                <Link
+                                                    to={`/jobs/${job._id}/applicants`}
+                                                    className="flex-1 py-2.5 bg-blue-500/10 border border-blue-500/20 text-center text-blue-400 font-medium rounded-lg hover:bg-blue-500/20 transition-all text-sm"
+                                                >
+                                                    Applicants
+                                                </Link>
+                                            </div>
+                                        )}
                                 </div>
                             ))
                         ) : (

@@ -37,7 +37,9 @@ exports.getJobs = async (req, res) => {
             query.type = type;
         }
 
-        const jobs = await Job.find(query).sort({ createdAt: -1 });
+        const jobs = await Job.find(query)
+            .populate('postedBy', 'name profilePhoto')
+            .sort({ createdAt: -1 });
         res.json(jobs);
     } catch (err) {
         console.error(err.message);

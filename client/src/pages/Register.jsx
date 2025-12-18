@@ -33,8 +33,9 @@ const Register = () => {
             localStorage.setItem('token', res.data.token);
             navigate('/profile');
         } catch (err) {
-            console.error('Register Error', err.response.data);
-            alert('Registration Failed');
+            console.error('Register Error', err);
+            const msg = err.response?.data?.message || 'Registration Failed. Please try again.';
+            alert(msg);
         }
     };
 

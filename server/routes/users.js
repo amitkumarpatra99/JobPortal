@@ -13,6 +13,6 @@ router.get('/profile', auth, getProfile);
 // @route   PUT api/users/profile
 // @desc    Update profile & Upload Photo
 // @access  Private
-router.put('/profile', auth, upload, updateProfile);
+router.put('/profile', auth, upload('profilePhoto'), updateProfile);
 
 module.exports = router;

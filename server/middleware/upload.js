@@ -10,13 +10,15 @@ const storage = multer.diskStorage({
 });
 
 // Init upload
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 5000000 }, // 5MB limit
-    fileFilter: function (req, file, cb) {
-        checkFileType(file, cb);
-    }
-}).single('profilePhoto'); // Field name 'profilePhoto'
+const fileUpload = (fieldName) => {
+    return multer({
+        storage: storage,
+        limits: { fileSize: 5000000 }, // 5MB limit
+        fileFilter: function (req, file, cb) {
+            checkFileType(file, cb);
+        }
+    }).single(fieldName);
+};
 
 // Check File Type
 function checkFileType(file, cb) {
@@ -34,4 +36,4 @@ function checkFileType(file, cb) {
     }
 }
 
-module.exports = upload;
+module.exports = fileUpload;

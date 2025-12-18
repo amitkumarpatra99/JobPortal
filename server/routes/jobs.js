@@ -29,7 +29,7 @@ const upload = require('../middleware/upload');
 // @route   POST api/jobs/:id/apply
 // @desc    Apply for a job
 // @access  Private (Seeker only)
-router.post('/:id/apply', auth, checkRole(['seeker']), upload, applyForJob);
+router.post('/:id/apply', auth, checkRole(['seeker']), upload('resume'), applyForJob);
 
 // @route   PUT api/jobs/applications/:id/status
 // @desc    Update application status

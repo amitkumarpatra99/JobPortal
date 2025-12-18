@@ -27,7 +27,17 @@ exports.createJob = async (req, res) => {
 // Get All Jobs
 exports.getJobs = async (req, res) => {
     try {
-        const jobs = await Job.find().sort({ createdAt: -1 });
+        const { search, type } = req.query;
+        let query = {};
+
+        if (search) {
+            query.title = { $regex: search, $options: 'i' };
+        }
+        if (type) {
+            query.type = type;
+        }
+
+        const jobs = await Job.find(query).sort({ createdAt: -1 });
         res.json(jobs);
     } catch (err) {
         console.error(err.message);

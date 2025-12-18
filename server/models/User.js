@@ -23,6 +23,30 @@ const userSchema = new mongoose.Schema({
         type: String, // Path to the image
         default: '',
     },
+    bio: {
+        type: String,
+        default: '',
+    },
+    skills: {
+        type: [String],
+        default: [],
+    },
+    experience: [{
+        title: String,
+        company: String,
+        from: Date,
+        to: Date,
+        current: Boolean,
+        description: String
+    }],
+    education: [{
+        school: String,
+        degree: String,
+        fieldOfStudy: String,
+        from: Date,
+        to: Date,
+        current: Boolean
+    }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

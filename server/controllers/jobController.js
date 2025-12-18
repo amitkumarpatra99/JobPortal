@@ -96,13 +96,43 @@ exports.applyForJob = async (req, res) => {
             return res.status(400).json({ message: 'Already applied for this job' });
         }
 
+        const resume = req.file ? `uploads/${req.file.filename}` : '';
+
         const newApplication = new Application({
             job: req.params.id,
-            applicant: req.user.id
+            applicant: req.user.id,
+            resume
         });
 
         await newApplication.save();
         res.json(newApplication);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+// Update Application Status
+exports.updateApplicationStatus = async (req, res) => {
+    try {
+        const { status } = req.body;
+        // Check valid status
+        if (!['applied', 'reviewed', 'accepted', 'rejected'].includes(status)) {
+            return res.status(400).json({ message: 'Invalid status' });
+        }
+
+        const application = await Application.findById(req.params.id).populate('job');
+        if (!application) return res.status(404).json({ message: 'Application not found' });
+
+        // Verify Employer owns the job
+        if (application.job.postedBy.toString() !== req.user.id) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        application.status = status;
+        await application.save();
+
+        res.json(application);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

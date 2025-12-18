@@ -36,12 +36,36 @@ const JobBoard = () => {
         fetchUser();
     }, []);
 
-    const handleApply = async (jobId) => {
+    const [applyingJobId, setApplyingJobId] = useState(null);
+    const fileInputRef = React.useRef(null);
+
+    const handleApplyClick = (jobId) => {
+        setApplyingJobId(jobId);
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('resume', file);
+
         try {
-            await api.post(`/jobs/${jobId}/apply`);
-            alert('Applied successfully!');
+            const token = localStorage.getItem('token');
+            const config = {
+                headers: {
+                    'x-auth-token': token,
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            await api.post(`/jobs/${applyingJobId}/apply`, formData, config);
+            alert('Applied successfully with resume!');
         } catch (err) {
             alert(err.response?.data?.message || 'Error applying for job');
+        } finally {
+            setApplyingJobId(null);
+            e.target.value = null; // Reset input
         }
     };
 
@@ -60,6 +84,13 @@ const JobBoard = () => {
     return (
         <div className="min-h-screen font-sans text-gray-100">
             <Navbar />
+            <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+                accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-24">
                 <h1 className="text-3xl font-extrabold text-white mb-8 drop-shadow-md">Latest Job Openings</h1>
@@ -101,10 +132,10 @@ const JobBoard = () => {
 
                                     {user && user.role === 'seeker' && (
                                         <button
-                                            onClick={() => handleApply(job._id)}
+                                            onClick={() => handleApplyClick(job._id)}
                                             className="w-full mt-auto py-2.5 bg-white/5 border border-white/10 text-white font-medium rounded-lg hover:bg-blue-600 hover:border-blue-500 transition-all text-sm"
                                         >
-                                            Apply Now
+                                            Upload Resume & Apply
                                         </button>
                                     )}
 

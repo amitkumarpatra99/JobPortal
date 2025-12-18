@@ -7,19 +7,24 @@ const JobBoard = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [jobType, setJobType] = useState('');
+
+    const fetchJobs = async (search = '', type = '') => {
+        setLoading(true);
+        try {
+            const res = await api.get('/jobs', {
+                params: { search, type }
+            });
+            setJobs(res.data);
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching jobs:', err);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchJobs = async () => {
-            try {
-                const res = await api.get('/jobs');
-                setJobs(res.data);
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching jobs:', err);
-                setLoading(false);
-            }
-        };
-
         const fetchUser = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -35,6 +40,11 @@ const JobBoard = () => {
         fetchJobs();
         fetchUser();
     }, []);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        fetchJobs(searchQuery, jobType);
+    };
 
     const [applyingJobId, setApplyingJobId] = useState(null);
     const fileInputRef = React.useRef(null);
@@ -93,7 +103,39 @@ const JobBoard = () => {
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-24">
-                <h1 className="text-3xl font-extrabold text-white mb-8 drop-shadow-md">Latest Job Openings</h1>
+                <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                    <h1 className="text-3xl font-extrabold text-white drop-shadow-md">Latest Job Openings</h1>
+
+                    {/* Search Controls */}
+                    <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+                        <select
+                            value={jobType}
+                            onChange={(e) => setJobType(e.target.value)}
+                            className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-blue-500"
+                        >
+                            <option value="">All Types</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Search jobs..."
+                                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-blue-500 w-full"
+                            />
+                            <button
+                                type="submit"
+                                className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                            >
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
                 {loading ? (
                     <div className="flex justify-center items-center h-64">

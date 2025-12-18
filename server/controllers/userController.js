@@ -24,8 +24,14 @@ exports.updateProfile = async (req, res) => {
         if (skills) {
             userFields.skills = Array.isArray(skills) ? skills : skills.split(',').map(skill => skill.trim());
         }
-        if (experience) userFields.experience = typeof experience === 'string' ? JSON.parse(experience) : experience;
-        if (education) userFields.education = typeof education === 'string' ? JSON.parse(education) : education;
+
+        try {
+            if (experience) userFields.experience = typeof experience === 'string' ? JSON.parse(experience) : experience;
+            if (education) userFields.education = typeof education === 'string' ? JSON.parse(education) : education;
+        } catch (e) {
+            console.error('JSON Parse Error:', e);
+            return res.status(400).json({ message: 'Invalid data format for experience or education' });
+        }
 
         if (profilePhoto) userFields.profilePhoto = profilePhoto;
 

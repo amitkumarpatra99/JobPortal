@@ -38,7 +38,7 @@ app.use((err, req, res, next) => {
         return res.status(400).json({ message: err.message });
     } else if (err) {
         // An unknown error occurred when uploading.
-        if (err === 'Error: Images Only!') {
+        if (err === 'Error: Images Only!' || err === 'Error: File upload only supports: Images, PDF, DOC, DOCX') {
             return res.status(400).json({ message: err });
         }
         console.error(err);

@@ -121,11 +121,11 @@ const JobBoard = () => {
                             onChange={(e) => setJobType(e.target.value)}
                             className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-blue-500"
                         >
-                            <option value="">All Types</option>
-                            <option value="Full-time">Full-time</option>
-                            <option value="Part-time">Part-time</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Remote">Remote</option>
+                            <option value="" className="bg-gray-900 text-white">All Types</option>
+                            <option value="Full-time" className="bg-gray-900 text-white">Full-time</option>
+                            <option value="Part-time" className="bg-gray-900 text-white">Part-time</option>
+                            <option value="Contract" className="bg-gray-900 text-white">Contract</option>
+                            <option value="Remote" className="bg-gray-900 text-white">Remote</option>
                         </select>
                         <div className="flex gap-2">
                             <input

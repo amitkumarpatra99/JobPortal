@@ -79,8 +79,8 @@ exports.deleteJob = async (req, res) => {
         let job = await Job.findById(req.params.id);
         if (!job) return res.status(404).json({ message: 'Job not found' });
 
-        // Make sure user owns the job
-        if (job.postedBy.toString() !== req.user.id) {
+        // Make sure user owns the job or is an admin
+        if (job.postedBy.toString() !== req.user.id && req.user.role !== 'admin') {
             return res.status(401).json({ message: 'Not authorized' });
         }
 

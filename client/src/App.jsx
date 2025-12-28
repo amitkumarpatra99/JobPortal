@@ -8,6 +8,7 @@ import PostJob from './pages/PostJob';
 import Profile from './pages/Profile';
 import Companies from './pages/Companies';
 import Salaries from './pages/Salaries';
+import AdminDashboard from './pages/AdminDashboard';
 
 import JobApplicants from './pages/JobApplicants';
 
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/companies" element={<Companies />} />
         <Route path="/salaries" element={<Salaries />} />
         <Route path="/jobs/:id/applicants" element={<JobApplicants />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );

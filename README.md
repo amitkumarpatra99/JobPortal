@@ -1,4 +1,4 @@
-# JobFlow - Premium MERN Job Portal
+# JobFlow -  MERN Job Portal
 
 ![JobFlow Banner](https://via.placeholder.com/1200x400/0f172a/3b82f6?text=JobFlow+Premium+Job+Portal)
 
@@ -31,6 +31,82 @@
 - **Database**: MongoDB (Mongoose ODM)
 - **Authentication**: JSON Web Tokens (JWT), Bcrypt.js
 - **File Handling**: Multer
+
+## 🏗️ Architecture
+
+A simplified view of how data flows through the **JobFlow** application:
+
+```mermaid
+graph LR
+    User[👤 User] -->|HTTPS Request| React[⚛️ React Client]
+    React -->|REST API Calls| Node[🟢 Node/Express API]
+    Node -->|Queries/Updates| Mongo[🍃 MongoDB Database]
+    Mongo -->|Data| Node
+    Node -->|JSON Response| React
+    React -->|Render UI| User
+```
+
+## 🔍 Filter System Logic
+
+Our backend implements a robust filtering system to help users find the perfect job. Here's a glimpse of the logic used in our `getJobs` controller:
+
+```javascript
+// server/controllers/jobController.js
+
+exports.getJobs = async (req, res) => {
+    try {
+        const { search, type, location, salary } = req.query; // Destructure query params
+        let query = {};
+
+        // 1. Search by Job Title (Case-Insensitive Regex)
+        if (search) {
+            query.title = { $regex: search, $options: 'i' };
+        }
+
+        // 2. Filter by Job Type (Full-time, Part-time, etc.)
+        if (type) {
+            query.type = type;
+        }
+
+        // 3. Filter by Location (City/Remote)
+        if (location) {
+             query.location = { $regex: location, $options: 'i' };
+        }
+
+        // 4. Execute Query & Populate Company Data
+        const jobs = await Job.find(query)
+            .populate('postedBy', 'name profilePhoto')
+            .sort({ createdAt: -1 }); // Newest first
+
+        res.json(jobs);
+    } catch (err) {
+        // Error handling...
+    }
+};
+```
+
+## 💡 Challenges Faced & Solutions
+
+During development, we encountered several interesting technical challenges:
+
+### 1. Handling Duplicate Job Applications
+**Challenge**: Users could accidentally spam the "Apply" button, sending multiple requests for the same job.
+**Solution**: We implemented a check in the backend to verify if a user has already applied for a specific job before creating a new application record.
+
+```javascript
+const existingApplication = await Application.findOne({
+    job: req.params.id,
+    applicant: req.user.id
+});
+
+if (existingApplication) {
+    return res.status(400).json({ message: 'Already applied for this job' });
+}
+```
+
+### 2. Secure Resume Uploads
+**Challenge**: allowing users to upload resumes while preventing malicious file uploads.
+**Solution**: integrated `Multer` with strict file type validation (PDF, DOC, DOCX only) to ensure only safe documents are stored on the server.
 
 ## 📦 Installation & Setup
 

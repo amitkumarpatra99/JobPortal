@@ -1,6 +1,6 @@
 # JobFlow -  MERN Job Portal
 
-![JobFlow Banner](https://via.placeholder.com/1200x400/0f172a/3b82f6?text=JobFlow+Premium+Job+Portal)
+![JobFlow Banner](assets/banner.png)
 
 **JobFlow** is a modern, high-performance job board application built with the **MERN Stack** (MongoDB, Express, React, Node.js). It features a stunning **Dark Glassmorphism UI**, secure authentication, and a seamless user experience for both job seekers and employers.
 

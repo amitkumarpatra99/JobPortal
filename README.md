@@ -85,7 +85,7 @@ exports.getJobs = async (req, res) => {
 };
 ```
 
-## 💡 Challenges Faced & Solutions
+## 💡 Challenges Faced & Solutionss
 
 During development, we encountered several interesting technical challenges:
 

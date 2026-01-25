@@ -106,7 +106,7 @@ if (existingApplication) {
 
 ### 2. Secure Resume Uploads
 **Challenge**: allowing users to upload resumes while preventing malicious file uploads.
-**Solution**: integrated `Multer` with strict file type validation (PDF, DOC, DOCX only) to ensure only safe documents are stored on the server.
+**Solution**: integrated `Multer` with strict file type validation (PDF, DOC only) to ensure only safe documents are stored on the server.
 
 ## 📦 Installation & Setup
 

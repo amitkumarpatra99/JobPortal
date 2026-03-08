@@ -1,4 +1,4 @@
-# JobFlow -  MERN Job Portal
+# JobFlow -  MERN Job Portal 💤
 
 ![JobFlow Banner](assets/banner.png)
 

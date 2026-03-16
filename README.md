@@ -1,4 +1,4 @@
-# JobFlow -  MERN Job Portal
+# JobFlow -  MERN STACK PROJECT 
 
 ![JobFlow Banner](assets/banner.png)
 
